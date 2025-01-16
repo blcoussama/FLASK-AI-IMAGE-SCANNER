@@ -1,0 +1,83 @@
+# Machine Learning Model Files
+*.h5
+model/
+media/
+
+# Python Virtual Environment
+venv/
+env/
+.env/
+.venv/
+
+# Python Cache Files
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+
+# Database Files
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE and Editor Files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+*.iml
+
+# Distribution and Packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment Variables and Secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# Log Files
+*.log
+logs/
+
+# Executables
+*.exe
+
+# Jupyter Notebooks Checkpoints
+*.ipynb_checkpoints/
+
+# TensorFlow SavedModel Directories
+saved_model/
+
+# Pytest Cache
+.pytest_cache/
+
+# System Files
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Coverage Files
+.coverage
+.coverage.*
+*.cover
+
+# PyCharm Files
+.idea/

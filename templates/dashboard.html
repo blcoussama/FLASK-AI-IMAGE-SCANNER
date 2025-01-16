@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block body %}
+<!-- Header Section -->
+<header class="dashboard-header">
+    <h1>Welcome, {{ username }}</h1>
+    <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+</header>
+
+<!-- Main Content Section -->
+<div class="dashboard-body">
+    <div class="dash-container">
+        <h2>AI Eye Disease Classification</h2>
+        <div class="ai-section">
+             
+            <form class="upload-form" action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <!-- Custom File Upload Section -->
+                    <label for="file-upload" class="file-upload-label">
+                        <span class="file-upload-text">Upload an Image</span>
+                    </label>
+                    <input type="file" name="file" id="file-upload" accept="image/*" required onchange="previewImage(event)">
+                </div>
+                
+                <!-- Image Preview Section -->
+                <div id="image-preview-container" class="image-preview-container" style="display:none;">
+                    <img id="image-preview" src="" alt="Image preview" class="image-preview" />
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="analyze-button" style="display:none;">Analyze The Image</button>
+            </form>
+    
+            {% if error %}
+                <div class="error">
+                    {{ error }}
+                </div>
+            {% endif %}
+    
+            {% if prediction %}
+                <div class="results">
+                    <h3>Primary Prediction: {{ prediction }}</h3>
+                    <h4>Confidence: {{ confidence }}%</h4>
+                    
+                    <h4>All Class Probabilities:</h4>
+                    {% for class_name, prob in all_probabilities.items() %}
+                    <div>
+                        <p>{{ class_name }}: {{ "%.2f"|format(prob) }}%</p>
+                        <div class="probability-bar">
+                            <div class="probability-fill" style="width: {{ prob }}%"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- Show the uploaded image after submission -->
+            {% if uploaded_image %}
+            <div class="image-preview-container" style="display:block;">
+                <img src="{{ url_for('uploaded_image', filename=uploaded_image) }}" alt="Uploaded Image" class="image-preview" />
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    
+</style>
+
+<!-- JavaScript for Image Preview -->
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        const analyzeButton = document.getElementById('analyze-button');
+
+        reader.onload = function(e) {
+            const imagePreview = document.getElementById('image-preview');
+            imagePreview.src = e.target.result;
+            document.getElementById('image-preview-container').style.display = 'block';
+
+            // Show the analyze button after the image is loaded
+            analyzeButton.style.display = 'block';
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            // Hide the analyze button if no file is selected
+            analyzeButton.style.display = 'none';
+        }
+    }
+</script>
+
+{% endblock %}
