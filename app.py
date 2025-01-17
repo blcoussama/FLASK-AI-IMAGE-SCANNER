@@ -52,6 +52,12 @@ def download_model_from_github():
         if asset.name == MODEL_FILE_NAME:
             download_url = asset.browser_download_url
             model_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model', MODEL_FILE_NAME)
+            
+            # Ensure the 'model' directory exists
+            model_dir = os.path.dirname(model_file_path)
+            if not os.path.exists(model_dir):
+                os.makedirs(model_dir)
+
             # Download the file if it doesn't exist
             if not os.path.exists(model_file_path):
                 response = requests.get(download_url)
