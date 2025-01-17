@@ -1,0 +1,80 @@
+<!-- {% extends "base.html" %}
+
+{% block body %}
+<header class="dashboard-header">
+    <h1>Saved Analyses - {{ username }}</h1>
+    <nav>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+    </nav>
+</header>
+
+<div class="analyses-container">
+    {% if analyses %}
+        {% for analysis in analyses %}
+        <div class="analysis-card">
+            <div class="analysis-image">
+                <img src="data:image/jpeg;base64,{{ analysis.image_data }}" alt="Analysis Image">
+            </div>
+            <div class="analysis-details">
+                <h3>Prediction: {{ analysis.prediction }}</h3>
+                <p>Confidence: {{ "%.2f"|format(analysis.confidence) }}%</p>
+                <p>Date: {{ analysis.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                
+                <h4>Probabilities:</h4>
+                {% set probs = analysis.probabilities|tojson|safe %}
+                {% for class_name, prob in probs.items() %}
+                <div class="probability-item">
+                    <div class="probability-label">
+                        <span>{{ class_name }}</span>
+                        <span>{{ "%.2f"|format(prob) }}%</span>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="probability-fill" style="width: {{ prob }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-analyses">
+            <p>No saved analyses yet. Start by analyzing some images on the dashboard!</p>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.analyses-container {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.analysis-card {
+    background: #2a2a2a;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.analysis-details {
+    padding: 15px;
+}
+
+.no-analyses {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background: #2a2a2a;
+    border-radius: 8px;
+}
+</style>
+{% endblock %} -->

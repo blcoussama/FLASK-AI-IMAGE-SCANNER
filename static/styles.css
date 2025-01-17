@@ -3,37 +3,55 @@ body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Optional: Light background for the page */
+    background-color: rgb(32, 32, 32); /* Optional: Light background for the page */
+    color: rgb(224, 224, 224);
     height: 100vh;
     min-height: 100%;
 }
 
 .form-body {
+    background-color: rgb(32, 32, 32);
+    color: rgb(224, 224, 224);
     padding-left: 20px;
     padding-right: 20px; 
     font-family: 'Montserrat', sans-serif;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     height: 100vh;
     min-height: 100%;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 100px;
+    margin-top: 80px;
+}
+.form-body .logo {
+    font-size: 50px;
+}
+
+.form-body .logo-p {
+    font-size: 20px;
 }
 
 .container {
     width: 100%;
     max-width: 400px;
     padding: 30px;
-    background-color: #fff;
+    background-color: rgb(24, 24, 24);
+    color: rgb(224, 224, 224);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center; /* Center the content inside the container */
 }
 
 /* Form Title */
 h1 {
+    color: rgb(240, 240, 240);
     font-size: 24px;
     margin-bottom: 20px;
-    color: #333;
 }
 
 /* Input Fields */
@@ -45,6 +63,7 @@ h1 {
     border-radius: 4px;
     font-size: 16px;
     box-sizing: border-box;
+    color: black;
 }
 
 .input-field:focus {
@@ -60,12 +79,13 @@ h1 {
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-auth {
     background-color: #4CAF50;
     color: white;
+    font-size: 18px;
 }
 
 .btn-auth:hover {
@@ -74,8 +94,9 @@ h1 {
 
 /* Links */
 a {
-    color: #4CAF50;
+    color: #64ca68;
     text-decoration: none;
+    text-decoration: underline;
 }
 
 a:hover {
@@ -89,7 +110,7 @@ a:hover {
 }
 
 /* Dashboard Header */
-.dashboard-body {
+/* .dashboard-body {
     font-family: 'Montserrat', sans-serif;
     display: flex;
     align-items: center;
@@ -153,52 +174,49 @@ a:hover {
 }
 
 .upload-form {
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 30%;
     padding: 50px;
-}
+} */
 
 /* File Upload Customization */
-.file-upload-label {
-    display: inline-block;
-    padding: 12px 20px;
+/* .file-upload-label {
+    padding: 40px 30px;
+    padding-bottom: 20px;
     background-color: #4CAF50;
-    color: white;
+    color: black;
     border-radius: 4px;
     cursor: pointer;
-    text-align: center;
-    font-size: 16px;
-    margin-bottom: 20px;
 }
 
 .file-upload-label:hover {
     background-color: #45a049;
-}
+} */
 
 /* Hide the actual file input */
-#file-upload {
-    display: none;
-}
+/* #file-upload {
+    display: none ;
+} */
 
 /* Image Preview */
-.image-preview-container {
+/* .image-preview-container {
     margin-top: 15px;
     text-align: center;
+    width: 100%;
 }
 
 .image-preview {
-    max-width: 100%;
-    height: auto;
-    max-height: 150px;
-    border-radius: 8px;
+    width: 300px;
+    height: 300px;
     object-fit: cover;
-}
+} */
 
 /* Results Section */
-.results {
+/* .results {
     width: 100%;
     max-width: 100%;
     padding: 15px;
@@ -218,20 +236,20 @@ a:hover {
     height: 20px;
     border-radius: 3px;
     transition: width 0.5s ease-in-out;
-}
+} */
 
 /* Error message styling */
-.error {
+/* .error {
     color: red;
     margin-top: 20px;
     padding: 10px;
     border: 1px solid red;
     border-radius: 5px;
     background-color: #fff5f5;
-}
+} */
 
 /* Form Button Styling */
-.btn-primary {
+/* .btn-primary {
     background-color: #4CAF50;
     color: white;
     padding: 10px 10px;
@@ -242,10 +260,10 @@ a:hover {
 
 .btn-primary:hover {
     background-color: #45a049;
-}
+} */
 
 /* Logout Button Styling */
-.btn-logout {
+/* .btn-logout {
     background-color: #f44336;
     color: white;
     padding: 10px 20px;
@@ -258,4 +276,189 @@ a:hover {
 .btn-logout:hover {
     background-color: #e53935;
 }
+ */
+ .results h3 {
+    font-size: 1.5rem;
+    color: #333;
+}
 
+.results h4 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.results .prediction-value {
+    color: #4CAF50; /* Green for primary prediction result */
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.results .confidence-value {
+    color: #4CAF50; /* Green for confidence value */
+    font-weight: bold;
+}
+
+.results .probability-item .probability-label span:last-child {
+    color: #4CAF50; /* Green for probability percentages */
+    font-weight: bold;
+}
+
+@media (max-width: 1024px) {
+    .ai-section {
+        display: flex;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center align for better aesthetics */
+    }
+
+    .upload-form,
+    .results-container {
+        width: 100%; /* Ensure full width for better visibility */
+        max-width: 600px; /* Optional: Limit width for a cleaner layout */
+        margin-bottom: 1.5rem; /* Add spacing between the elements */
+    }
+}
+
+  /* Dashboard styles */
+  .dashboard-body {
+    font-family: 'Montserrat', sans-serif;
+}
+.dashboard-header {
+    padding: 20px 30px;
+    display: flex;
+    margin-bottom: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h2 {
+    width: 100%;
+}
+
+.dashboard-header a {
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    background-color: #f44336;
+    padding: 10px 20px;
+    border-radius: 4px;
+    max-width: 70px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.dash-container {
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.ai-section {
+    margin-top: 100px;
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    background-color: rgb(24, 24, 24);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.upload-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.file-upload-label {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: rgb(27, 27, 27);
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.upload-icon {
+    width: 48px;
+    height: 48px;
+    color: #4CAF50;
+}
+
+.upload-text {
+    font-size: 1.1rem;
+    color: white;
+}
+
+.preview-section {
+    display: none;
+    width: 100%;
+}
+
+.image-preview-container {
+    max-width: 244px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image-preview {
+    width: 100%;
+    object-fit: cover;
+}
+
+.results-container {
+    width: 100%;
+}
+
+.probability-item {
+    margin-bottom: 1rem;
+}
+
+.probability-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.probability-bar {
+    height: 20px;
+    background-color: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.probability-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    transition: width 0.6s ease;
+}
+
+#analyze-button {
+    background-color: #4CAF50;
+    color: white;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+}

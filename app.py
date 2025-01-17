@@ -1,16 +1,22 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 import tensorflow as tf
 from tensorflow.keras.utils import img_to_array, load_img
 import numpy as np
+import os
 
 app = Flask(__name__)
 app.secret_key = "my_secret_key"
 
-# Config SQL Alchemy
+# Configuration settings
+app.config['UPLOAD_FOLDER'] = 'media'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Initialize database
 db = SQLAlchemy(app)
 
 # Load the trained ResNet50 model
@@ -30,17 +36,15 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-def preprocess_image(image_file):
+def preprocess_image(image_path):
     """
     Preprocess the uploaded image exactly as in the training code
+    Parameters:
+    image_path (str): Path to the saved image file
     """
-    temp_path = './media/temp_image.jpg'
-    image_file.save(temp_path)
-    
-    img = load_img(temp_path, target_size=(224, 224))
+    img = load_img(image_path, target_size=(224, 224))
     img_array = img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
-    
     return img_array
 
 @app.route("/")
@@ -94,37 +98,56 @@ def predict():
     if "username" not in session:
         return redirect(url_for("login"))
         
-    if 'file' not in request.files:
-        return render_template('dashboard.html', username=session["username"], error='No file uploaded')
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return render_template('dashboard.html', username=session["username"], error='No file uploaded')
+        
+        file = request.files['file']
+        if file.filename == '':
+            return render_template('dashboard.html', username=session["username"], error='No selected file')
+        
+        try:
+            # Create media directory if it doesn't exist
+            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+            
+            # Save the uploaded file
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            
+            # Process the image using the saved file path
+            img_array = preprocess_image(filepath)
+            predictions = model.predict(img_array)
+            probabilities = predictions[0]
+            
+            predicted_class = np.argmax(probabilities)
+            confidence = float(probabilities[predicted_class] * 100)
+            result = CLASS_LABELS[predicted_class]
+            
+            class_probabilities = {
+                label: float(prob * 100)
+                for label, prob in zip(CLASS_LABELS, probabilities)
+            }
+            
+            # Clean up the saved file
+            if os.path.exists(filepath):
+                os.remove(filepath)
+            
+            return render_template(
+                'dashboard.html',
+                username=session["username"],
+                prediction=result,
+                confidence=round(confidence, 2),
+                all_probabilities=class_probabilities
+            )
+            
+        except Exception as e:
+            # Clean up the file if it exists
+            if 'filepath' in locals() and os.path.exists(filepath):
+                os.remove(filepath)
+            return render_template('dashboard.html', username=session["username"], error=f'Error processing image: {str(e)}')
     
-    file = request.files['file']
-    if file.filename == '':
-        return render_template('dashboard.html', username=session["username"], error='No selected file')
-    
-    try:
-        img_array = preprocess_image(file)
-        predictions = model.predict(img_array)
-        probabilities = predictions[0]
-        
-        predicted_class = np.argmax(probabilities)
-        confidence = float(probabilities[predicted_class] * 100)
-        result = CLASS_LABELS[predicted_class]
-        
-        class_probabilities = {
-            label: float(prob * 100)
-            for label, prob in zip(CLASS_LABELS, probabilities)
-        }
-        
-        return render_template(
-            'dashboard.html',
-            username=session["username"],
-            prediction=result,
-            confidence=round(confidence, 2),
-            all_probabilities=class_probabilities
-        )
-        
-    except Exception as e:
-        return render_template('dashboard.html', username=session["username"], error=f'Error processing image: {str(e)}')
+    return render_template('dashboard.html', username=session["username"])
 
 @app.route("/logout")
 def logout():

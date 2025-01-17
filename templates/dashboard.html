@@ -1,96 +1,116 @@
 {% extends "base.html" %}
 
 {% block body %}
-<!-- Header Section -->
 <header class="dashboard-header">
-    <h1>Welcome, {{ username }}</h1>
-    <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+    <h1 style="width: 100%;">I-SCANNER</h1>
+    <div style="display: flex; align-items: center; justify-content: end; width: 100%; gap: 30px;">
+        <h1>Welcome, {{ username }}</h1>
+        <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+    </div>
+    
 </header>
 
-<!-- Main Content Section -->
 <div class="dashboard-body">
-    <div class="dash-container">
-        <h2>AI Eye Disease Classification</h2>
+    <div class="dash-container" style="width: 100%;">
         <div class="ai-section">
-             
-            <form class="upload-form" action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <!-- Custom File Upload Section -->
-                    <label for="file-upload" class="file-upload-label">
-                        <span class="file-upload-text">Upload an Image</span>
+            <form class="upload-form" action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
+                <div class="upload-container">
+                    <label for="file-upload" class="file-upload-label" id="upload-label">
+                        <div class="upload-content">
+                            <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+                            <span class="upload-text">Upload your image</span>
+                        </div>
                     </label>
-                    <input type="file" name="file" id="file-upload" accept="image/*" required onchange="previewImage(event)">
+                    <input style="display: none;" type="file" name="file" id="file-upload" accept="image/*" required>
                 </div>
-                
-                <!-- Image Preview Section -->
-                <div id="image-preview-container" class="image-preview-container" style="display:none;">
-                    <img id="image-preview" src="" alt="Image preview" class="image-preview" />
+
+                <div class="preview-section">
+                    <div id="image-preview-container" class="image-preview-container">
+                        <img id="image-preview" src="" alt="Image preview" class="image-preview">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="analyze-button">Analyze Image</button>
                 </div>
-                
-                <button type="submit" class="btn btn-primary" id="analyze-button" style="display:none;">Analyze The Image</button>
             </form>
-    
-            {% if error %}
-                <div class="error">
-                    {{ error }}
-                </div>
-            {% endif %}
-    
-            {% if prediction %}
+
+            <div class="results-container">
+                {% if error %}
+                <div class="error">{{ error }}</div>
+                {% endif %}
+
+                {% if prediction %}
                 <div class="results">
-                    <h3>Primary Prediction: {{ prediction }}</h3>
-                    <h4>Confidence: {{ confidence }}%</h4>
+                    <h3 style="color: white;">Primary Prediction: <span class="prediction-value">{{ prediction }}</span></h3>
+                    <h4 style="color: white;">Confidence: <span class="confidence-value">{{ confidence }}%</span></h4>
                     
-                    <h4>All Class Probabilities:</h4>
+                    <h4 style="color: white;">All Class Probabilities:</h4>
                     {% for class_name, prob in all_probabilities.items() %}
-                    <div>
-                        <p>{{ class_name }}: {{ "%.2f"|format(prob) }}%</p>
+                    <div class="probability-item">
+                        <div class="probability-label">
+                            <span>{{ class_name }}</span>
+                            <span>{{ "%.2f"|format(prob) }}%</span>
+                        </div>
                         <div class="probability-bar">
                             <div class="probability-fill" style="width: {{ prob }}%"></div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-            {% endif %}
-            
-            <!-- Show the uploaded image after submission -->
-            {% if uploaded_image %}
-            <div class="image-preview-container" style="display:block;">
-                <img src="{{ url_for('uploaded_image', filename=uploaded_image) }}" alt="Uploaded Image" class="image-preview" />
+                {% endif %}
             </div>
-            {% endif %}
         </div>
     </div>
 </div>
 
-<!-- Custom Styles -->
-<style>
-    
-</style>
-
-<!-- JavaScript for Image Preview -->
 <script>
-    function previewImage(event) {
+    
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('file-upload');
+    const previewSection = document.querySelector('.preview-section');
+    const imagePreview = document.getElementById('image-preview');
+    const uploadLabel = document.getElementById('upload-label');
+
+    fileInput.addEventListener('change', function(event) {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        const analyzeButton = document.getElementById('analyze-button');
-
-        reader.onload = function(e) {
-            const imagePreview = document.getElementById('image-preview');
-            imagePreview.src = e.target.result;
-            document.getElementById('image-preview-container').style.display = 'block';
-
-            // Show the analyze button after the image is loaded
-            analyzeButton.style.display = 'block';
-        };
-
         if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                previewSection.style.display = 'block';
+                uploadLabel.style.display = 'none';
+            };
             reader.readAsDataURL(file);
-        } else {
-            // Hide the analyze button if no file is selected
-            analyzeButton.style.display = 'none';
         }
-    }
-</script>
+    });
 
+    // Prevent form refresh issues
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        try {
+            const response = await fetch('{{ url_for("predict") }}', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.text();
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = result;
+            
+            // Update only the results container
+            const newResults = tempDiv.querySelector('.results-container');
+            const currentResults = document.querySelector('.results-container');
+            if (newResults && currentResults) {
+                currentResults.innerHTML = newResults.innerHTML;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+});
+</script>
 {% endblock %}
