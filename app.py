@@ -1,4 +1,5 @@
 import os
+import requests
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -7,6 +8,11 @@ import tensorflow as tf
 from tensorflow.keras.utils import img_to_array, load_img
 import numpy as np
 import tempfile
+from github import Github
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'my_secret_key')
@@ -29,9 +35,37 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-# Update model loading for Render
-model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model', 'resnet50_model.h5')
-model = tf.keras.models.load_model(model_path)
+# GitHub-related configuration
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Store this in your environment variables
+REPO_NAME = "blcoussama/FLASK-AI-IMAGE-SCANNER"  # Replace with your GitHub repository name
+MODEL_FILE_NAME = "resnet50_model.h5"
+TAG_NAME = "v1.0.0"  # The tag you created for the release
+
+# Download model file from GitHub release
+def download_model_from_github():
+    g = Github(GITHUB_TOKEN)
+    repo = g.get_repo(REPO_NAME)
+    release = repo.get_release(TAG_NAME)
+
+    # Get the .h5 file from the release assets
+    for asset in release.get_assets():
+        if asset.name == MODEL_FILE_NAME:
+            download_url = asset.browser_download_url
+            model_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model', MODEL_FILE_NAME)
+            # Download the file if it doesn't exist
+            if not os.path.exists(model_file_path):
+                response = requests.get(download_url)
+                with open(model_file_path, 'wb') as file:
+                    file.write(response.content)
+            return model_file_path
+    return None
+
+# Load the model
+model_path = download_model_from_github()
+if model_path:
+    model = tf.keras.models.load_model(model_path)
+else:
+    raise Exception("Model file not found in GitHub release!")
 
 # Class labels in the correct order
 CLASS_LABELS = ['cataract', 'glaucoma', 'normal', 'diabetic_retinopathy']
