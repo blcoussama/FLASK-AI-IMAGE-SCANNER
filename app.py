@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -5,22 +6,32 @@ from flask_sqlalchemy import SQLAlchemy
 import tensorflow as tf
 from tensorflow.keras.utils import img_to_array, load_img
 import numpy as np
-import os
+import tempfile
 
 app = Flask(__name__)
-app.secret_key = "my_secret_key"
+app.secret_key = os.environ.get('SECRET_KEY', 'my_secret_key')
 
-# Configuration settings
-app.config['UPLOAD_FOLDER'] = 'media'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+# Configure upload folder for Render
+if os.environ.get('RENDER'):
+    UPLOAD_FOLDER = tempfile.gettempdir()
+else:
+    UPLOAD_FOLDER = 'media'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Configure database for Render
+if os.environ.get('RENDER'):
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data/users.db"
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-# Initialize database
 db = SQLAlchemy(app)
 
-# Load the trained ResNet50 model
-model = tf.keras.models.load_model('./model/resnet50_model.h5')
+# Update model loading for Render
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model', 'resnet50_model.h5')
+model = tf.keras.models.load_model(model_path)
 
 # Class labels in the correct order
 CLASS_LABELS = ['cataract', 'glaucoma', 'normal', 'diabetic_retinopathy']
