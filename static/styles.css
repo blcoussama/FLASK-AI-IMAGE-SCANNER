@@ -294,3 +294,573 @@ a:hover {
     padding: 0.75rem;
     font-size: 1.1rem;
 }
+
+/* ============================================
+   PROFESSIONAL MEDICAL THEME - PATIENT MANAGEMENT
+   ============================================ */
+
+/* Header Updates */
+.dashboard-header {
+    background-color: #1e1e1e;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-bottom: 3px solid #2980b9;
+}
+
+.header-content h1 {
+    margin: 0;
+    color: #3498db;
+    font-size: 1.8rem;
+}
+
+.welcome-text {
+    color: #bdc3c7;
+    margin: 0.25rem 0 0 0;
+    font-size: 0.95rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #27ae60;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #229954;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+}
+
+.btn-secondary {
+    background-color: #34495e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+    background-color: #2c3e50;
+}
+
+.btn-logout {
+    background-color: #e74c3c;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #c0392b;
+}
+
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Alerts */
+.alerts-container {
+    margin-bottom: 2rem;
+}
+
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.alert-success {
+    background-color: rgba(39, 174, 96, 0.2);
+    border-left: 4px solid #27ae60;
+    color: #2ecc71;
+}
+
+.alert-error {
+    background-color: rgba(231, 76, 60, 0.2);
+    border-left: 4px solid #e74c3c;
+    color: #e74c3c;
+}
+
+/* Dashboard Container */
+.dash-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Patients Section */
+.patients-section {
+    margin-top: 2rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #34495e;
+}
+
+.section-header h2 {
+    color: #ecf0f1;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.patient-count {
+    background-color: #2980b9;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Patient Cards Grid */
+.patients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.patient-card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #2c3e50;
+}
+
+.patient-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+    border-color: #3498db;
+}
+
+.patient-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.patient-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.patient-info h3 {
+    margin: 0;
+    color: #ecf0f1;
+    font-size: 1.3rem;
+}
+
+.patient-date {
+    margin: 0.25rem 0 0 0;
+    color: #95a5a6;
+    font-size: 0.9rem;
+}
+
+.patient-card-body {
+    margin-bottom: 1rem;
+}
+
+.eye-status-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.eye-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.eye-label {
+    color: #bdc3c7;
+    font-size: 0.95rem;
+}
+
+.status-badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-analyzed {
+    background-color: rgba(39, 174, 96, 0.2);
+    color: #2ecc71;
+}
+
+.status-pending {
+    background-color: rgba(241, 196, 15, 0.2);
+    color: #f1c40f;
+}
+
+.status-missing {
+    background-color: rgba(149, 165, 166, 0.2);
+    color: #95a5a6;
+}
+
+.patient-card-footer {
+    padding-top: 1rem;
+    border-top: 1px solid #34495e;
+    text-align: right;
+}
+
+.view-details {
+    color: #3498db;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    border: 2px dashed #34495e;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: #ecf0f1;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #95a5a6;
+    margin-bottom: 2rem;
+}
+
+/* Create Patient Form */
+.form-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    background-color: #1e1e1e;
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 2px solid #2c3e50;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-header h2 {
+    color: #ecf0f1;
+    margin-bottom: 0.5rem;
+}
+
+.form-header p {
+    color: #95a5a6;
+}
+
+.patient-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: #bdc3c7;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.required {
+    color: #e74c3c;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* Patient Detail Page */
+.patient-detail-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.patient-info-card {
+    background-color: #1e1e1e;
+    padding: 2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    border: 2px solid #2c3e50;
+}
+
+.patient-avatar-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.patient-info-card h2 {
+    color: #ecf0f1;
+    margin: 0 0 0.5rem 0;
+}
+
+.patient-meta {
+    color: #95a5a6;
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+}
+
+/* Eyes Grid */
+.eyes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 2rem;
+}
+
+.eye-card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 2px solid #2c3e50;
+}
+
+.eye-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #34495e;
+}
+
+.eye-card-header h3 {
+    color: #ecf0f1;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.eye-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.eye-image-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #2c3e50;
+}
+
+.eye-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.upload-placeholder {
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: #2c3e50;
+    border-radius: 12px;
+    border: 2px dashed #34495e;
+}
+
+.upload-icon-large {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.upload-placeholder p {
+    color: #95a5a6;
+    margin-bottom: 1.5rem;
+}
+
+/* Analysis Results */
+.analysis-results {
+    background-color: #2c3e50;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #34495e;
+}
+
+.analysis-results h4 {
+    color: #ecf0f1;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.diagnosis-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.diagnosis-label {
+    color: #bdc3c7;
+    font-weight: 600;
+}
+
+.diagnosis-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-transform: capitalize;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.diagnosis-normal {
+    color: #2ecc71;
+    background-color: rgba(46, 204, 113, 0.2);
+}
+
+.diagnosis-cataract {
+    color: #e67e22;
+    background-color: rgba(230, 126, 34, 0.2);
+}
+
+.diagnosis-glaucoma {
+    color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.2);
+}
+
+.diagnosis-diabetic_retinopathy {
+    color: #9b59b6;
+    background-color: rgba(155, 89, 182, 0.2);
+}
+
+.diagnosis-confidence {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.confidence-value {
+    color: #3498db;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.diagnosis-timestamp {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.probabilities-section {
+    margin-top: 1.5rem;
+}
+
+.probabilities-section h5 {
+    color: #bdc3c7;
+    margin-bottom: 1rem;
+}
+
+.analyze-form, .re-upload-form {
+    margin-top: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .patients-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .eyes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+}

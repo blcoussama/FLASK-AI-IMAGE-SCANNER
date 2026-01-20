@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block body %}
+<header class="dashboard-header">
+    <div class="header-content">
+        <h1>I-SCANNER</h1>
+        <p class="welcome-text">Patient: {{ patient.full_name }}</p>
+    </div>
+    <div class="header-actions">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+    </div>
+</header>
+
+<div class="dashboard-body">
+    <div class="patient-detail-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alerts-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="patient-info-card">
+            <div class="patient-avatar-large">
+                {{ patient.first_name[0] }}{{ patient.last_name[0] }}
+            </div>
+            <div>
+                <h2>{{ patient.full_name }}</h2>
+                <p class="patient-meta">Created: {{ patient.created_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+                {% if patient.updated_at != patient.created_at %}
+                    <p class="patient-meta">Last updated: {{ patient.updated_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="eyes-grid">
+            <!-- LEFT EYE -->
+            <div class="eye-card">
+                <div class="eye-card-header">
+                    <h3>👁️ Left Eye</h3>
+                    {% if left_eye %}
+                        {% if left_eye.is_analyzed %}
+                            <span class="status-badge status-analyzed">✓ Analyzed</span>
+                        {% else %}
+                            <span class="status-badge status-pending">⏳ Pending Analysis</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="status-badge status-missing">○ Not Uploaded</span>
+                    {% endif %}
+                </div>
+
+                <div class="eye-card-body">
+                    {% if left_eye %}
+                        <div class="eye-image-container">
+                            <img src="{{ url_for('serve_patient_image', patient_id=patient.id, filename=left_eye.image_filename) }}"
+                                 alt="Left Eye"
+                                 class="eye-image">
+                        </div>
+
+                        {% if left_eye.is_analyzed %}
+                            <div class="analysis-results">
+                                <h4>Diagnosis Results</h4>
+                                <div class="diagnosis-main">
+                                    <span class="diagnosis-label">Prediction:</span>
+                                    <span class="diagnosis-value diagnosis-{{ left_eye.prediction }}">{{ left_eye.prediction }}</span>
+                                </div>
+                                <div class="diagnosis-confidence">
+                                    <span class="diagnosis-label">Confidence:</span>
+                                    <span class="confidence-value">{{ "%.2f"|format(left_eye.confidence) }}%</span>
+                                </div>
+                                <div class="diagnosis-timestamp">
+                                    Analyzed: {{ left_eye.analyzed_at.strftime('%b %d, %Y at %I:%M %p') }}
+                                </div>
+
+                                <div class="probabilities-section">
+                                    <h5>All Probabilities:</h5>
+                                    {% set probs = left_eye.all_probabilities|from_json %}
+                                    {% for class_name, prob in probs.items() %}
+                                        <div class="probability-item">
+                                            <div class="probability-label">
+                                                <span>{{ class_name }}</span>
+                                                <span>{{ "%.2f"|format(prob) }}%</span>
+                                            </div>
+                                            <div class="probability-bar">
+                                                <div class="probability-fill" style="width: {{ prob }}%"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <form method="POST" action="{{ url_for('upload_eye_image', patient_id=patient.id, eye_side='left') }}" enctype="multipart/form-data" class="re-upload-form">
+                                <input type="file" name="file" id="left-eye-reupload" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-secondary btn-small" onclick="document.getElementById('left-eye-reupload').click()">Re-upload Image</button>
+                                <button type="submit" class="btn btn-primary btn-small" style="display: none;" id="left-upload-btn">Upload</button>
+                            </form>
+                        {% else %}
+                            <form method="POST" action="{{ url_for('analyze_eye', patient_id=patient.id, eye_side='left') }}" class="analyze-form">
+                                <button type="submit" class="btn btn-primary btn-large">🔬 Analyze Left Eye</button>
+                            </form>
+
+                            <form method="POST" action="{{ url_for('upload_eye_image', patient_id=patient.id, eye_side='left') }}" enctype="multipart/form-data" class="re-upload-form">
+                                <input type="file" name="file" id="left-eye-reupload2" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-secondary btn-small" onclick="document.getElementById('left-eye-reupload2').click()">Re-upload Image</button>
+                                <button type="submit" class="btn btn-primary btn-small" style="display: none;" id="left-upload-btn2">Upload</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <div class="upload-placeholder">
+                            <div class="upload-icon-large">📷</div>
+                            <p>No image uploaded yet</p>
+                            <form method="POST" action="{{ url_for('upload_eye_image', patient_id=patient.id, eye_side='left') }}" enctype="multipart/form-data" id="left-upload-form">
+                                <input type="file" name="file" id="left-eye-file" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-primary btn-large" onclick="document.getElementById('left-eye-file').click()">📤 Upload Left Eye Image</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- RIGHT EYE -->
+            <div class="eye-card">
+                <div class="eye-card-header">
+                    <h3>👁️ Right Eye</h3>
+                    {% if right_eye %}
+                        {% if right_eye.is_analyzed %}
+                            <span class="status-badge status-analyzed">✓ Analyzed</span>
+                        {% else %}
+                            <span class="status-badge status-pending">⏳ Pending Analysis</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="status-badge status-missing">○ Not Uploaded</span>
+                    {% endif %}
+                </div>
+
+                <div class="eye-card-body">
+                    {% if right_eye %}
+                        <div class="eye-image-container">
+                            <img src="{{ url_for('serve_patient_image', patient_id=patient.id, filename=right_eye.image_filename) }}"
+                                 alt="Right Eye"
+                                 class="eye-image">
+                        </div>
+
+                        {% if right_eye.is_analyzed %}
+                            <div class="analysis-results">
+                                <h4>Diagnosis Results</h4>
+                                <div class="diagnosis-main">
+                                    <span class="diagnosis-label">Prediction:</span>
+                                    <span class="diagnosis-value diagnosis-{{ right_eye.prediction }}">{{ right_eye.prediction }}</span>
+                                </div>
+                                <div class="diagnosis-confidence">
+                                    <span class="diagnosis-label">Confidence:</span>
+                                    <span class="confidence-value">{{ "%.2f"|format(right_eye.confidence) }}%</span>
+                                </div>
+                                <div class="diagnosis-timestamp">
+                                    Analyzed: {{ right_eye.analyzed_at.strftime('%b %d, %Y at %I:%M %p') }}
+                                </div>
+
+                                <div class="probabilities-section">
+                                    <h5>All Probabilities:</h5>
+                                    {% set probs = right_eye.all_probabilities|from_json %}
+                                    {% for class_name, prob in probs.items() %}
+                                        <div class="probability-item">
+                                            <div class="probability-label">
+                                                <span>{{ class_name }}</span>
+                                                <span>{{ "%.2f"|format(prob) }}%</span>
+                                            </div>
+                                            <div class="probability-bar">
+                                                <div class="probability-fill" style="width: {{ prob }}%"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <form method="POST" action="{{ url_for('upload_eye_image', patient_id=patient.id, eye_side='right') }}" enctype="multipart/form-data" class="re-upload-form">
+                                <input type="file" name="file" id="right-eye-reupload" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-secondary btn-small" onclick="document.getElementById('right-eye-reupload').click()">Re-upload Image</button>
+                                <button type="submit" class="btn btn-primary btn-small" style="display: none;" id="right-upload-btn">Upload</button>
+                            </form>
+                        {% else %}
+                            <form method="POST" action="{{ url_for('analyze_eye', patient_id=patient.id, eye_side='right') }}" class="analyze-form">
+                                <button type="submit" class="btn btn-primary btn-large">🔬 Analyze Right Eye</button>
+                            </form>
+
+                            <form method="POST" action="{{ url_for('upload_eye_image', patient_id=patient.id, eye_side='right') }}" enctype="multipart/form-data" class="re-upload-form">
+                                <input type="file" name="file" id="right-eye-reupload2" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-secondary btn-small" onclick="document.getElementById('right-eye-reupload2').click()">Re-upload Image</button>
+                                <button type="submit" class="btn btn-primary btn-small" style="display: none;" id="right-upload-btn2">Upload</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <div class="upload-placeholder">
+                            <div class="upload-icon-large">📷</div>
+                            <p>No image uploaded yet</p>
+                            <form method="POST" action="{{ url_for('upload_eye_image', patient_id=patient.id, eye_side='right') }}" enctype="multipart/form-data" id="right-upload-form">
+                                <input type="file" name="file" id="right-eye-file" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-primary btn-large" onclick="document.getElementById('right-eye-file').click()">📤 Upload Right Eye Image</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Handle file selection for uploads
+document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.addEventListener('change', function() {
+        const form = this.closest('form');
+        if (this.files.length > 0) {
+            form.submit();
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -2,115 +2,97 @@
 
 {% block body %}
 <header class="dashboard-header">
-    <h1 style="width: 100%;">I-SCANNER</h1>
-    <div style="display: flex; align-items: center; justify-content: end; width: 100%; gap: 30px;">
-        <h1>Welcome, {{ username }}</h1>
+    <div class="header-content">
+        <h1>I-SCANNER</h1>
+        <p class="welcome-text">Welcome, Dr. {{ username }}</p>
+    </div>
+    <div class="header-actions">
+        <a href="{{ url_for('create_patient') }}" class="btn btn-primary">+ New Patient</a>
         <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
     </div>
-    
 </header>
 
 <div class="dashboard-body">
-    <div class="dash-container" style="width: 100%;">
-        <div class="ai-section">
-            <form class="upload-form" action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
-                <div class="upload-container">
-                    <label for="file-upload" class="file-upload-label" id="upload-label">
-                        <div class="upload-content">
-                            <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                            </svg>
-                            <span class="upload-text">Upload your image</span>
+    <div class="dash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alerts-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
                         </div>
-                    </label>
-                    <input style="display: none;" type="file" name="file" id="file-upload" accept="image/*" required>
-                </div>
-
-                <div class="preview-section">
-                    <div id="image-preview-container" class="image-preview-container">
-                        <img id="image-preview" src="" alt="Image preview" class="image-preview">
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="analyze-button">Analyze Image</button>
-                </div>
-            </form>
-
-            <div class="results-container">
-                {% if error %}
-                <div class="error">{{ error }}</div>
-                {% endif %}
-
-                {% if prediction %}
-                <div class="results">
-                    <h3 style="color: white;">Primary Prediction: <span class="prediction-value">{{ prediction }}</span></h3>
-                    <h4 style="color: white;">Confidence: <span class="confidence-value">{{ confidence }}%</span></h4>
-                    
-                    <h4 style="color: white;">All Class Probabilities:</h4>
-                    {% for class_name, prob in all_probabilities.items() %}
-                    <div class="probability-item">
-                        <div class="probability-label">
-                            <span>{{ class_name }}</span>
-                            <span>{{ "%.2f"|format(prob) }}%</span>
-                        </div>
-                        <div class="probability-bar">
-                            <div class="probability-fill" style="width: {{ prob }}%"></div>
-                        </div>
-                    </div>
                     {% endfor %}
                 </div>
-                {% endif %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="patients-section">
+            <div class="section-header">
+                <h2>Your Patients</h2>
+                <span class="patient-count">{{ patients|length }} patient{% if patients|length != 1 %}s{% endif %}</span>
             </div>
+
+            {% if patients %}
+                <div class="patients-grid">
+                    {% for patient in patients %}
+                        <div class="patient-card" onclick="window.location.href='{{ url_for('patient_detail', patient_id=patient.id) }}'">
+                            <div class="patient-card-header">
+                                <div class="patient-avatar">
+                                    {{ patient.first_name[0] }}{{ patient.last_name[0] }}
+                                </div>
+                                <div class="patient-info">
+                                    <h3>{{ patient.full_name }}</h3>
+                                    <p class="patient-date">Created: {{ patient.created_at.strftime('%b %d, %Y') }}</p>
+                                </div>
+                            </div>
+
+                            <div class="patient-card-body">
+                                <div class="eye-status-row">
+                                    <div class="eye-status">
+                                        <span class="eye-label">👁️ Left Eye:</span>
+                                        {% set left_eye = patient.get_analysis('left') %}
+                                        {% if left_eye %}
+                                            {% if left_eye.is_analyzed %}
+                                                <span class="status-badge status-analyzed">✓ Analyzed</span>
+                                            {% else %}
+                                                <span class="status-badge status-pending">⏳ Pending</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="status-badge status-missing">○ Not uploaded</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="eye-status">
+                                        <span class="eye-label">👁️ Right Eye:</span>
+                                        {% set right_eye = patient.get_analysis('right') %}
+                                        {% if right_eye %}
+                                            {% if right_eye.is_analyzed %}
+                                                <span class="status-badge status-analyzed">✓ Analyzed</span>
+                                            {% else %}
+                                                <span class="status-badge status-pending">⏳ Pending</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="status-badge status-missing">○ Not uploaded</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="patient-card-footer">
+                                <span class="view-details">View Details →</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <h3>No patients yet</h3>
+                    <p>Start by creating your first patient record</p>
+                    <a href="{{ url_for('create_patient') }}" class="btn btn-primary btn-large">Create First Patient</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
-
-<script>
-    
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('uploadForm');
-    const fileInput = document.getElementById('file-upload');
-    const previewSection = document.querySelector('.preview-section');
-    const imagePreview = document.getElementById('image-preview');
-    const uploadLabel = document.getElementById('upload-label');
-
-    fileInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                imagePreview.src = e.target.result;
-                previewSection.style.display = 'block';
-                uploadLabel.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // Prevent form refresh issues
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(form);
-        try {
-            const response = await fetch('{{ url_for("predict") }}', {
-                method: 'POST',
-                body: formData
-            });
-            
-            const result = await response.text();
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = result;
-            
-            // Update only the results container
-            const newResults = tempDiv.querySelector('.results-container');
-            const currentResults = document.querySelector('.results-container');
-            if (newResults && currentResults) {
-                currentResults.innerHTML = newResults.innerHTML;
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    });
-});
-</script>
 {% endblock %}
