@@ -1,514 +1,355 @@
-/* Base container style */
-body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: rgb(32, 32, 32); /* Optional: Light background for the page */
-    color: rgb(224, 224, 224);
-    height: 100vh;
-    min-height: 100%;
-}
+/* ============================================
+   I-SCANNER - PROFESSIONAL MEDICAL UI
+   Color Palette: Muted Blues, Grays, Clean Whites
+   Spacing System: 8px base unit
+   ============================================ */
 
-.form-body {
-    background-color: rgb(32, 32, 32);
-    color: rgb(224, 224, 224);
-    padding-left: 20px;
-    padding-right: 20px; 
-    font-family: 'Montserrat', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-    height: 100vh;
-    min-height: 100%;
-}
+/* CSS Variables for Professional Color Palette */
+:root {
+    /* Primary Colors - Muted Medical Blues */
+    --primary-blue: #4A90E2;
+    --primary-blue-dark: #357ABD;
+    --primary-blue-light: #6BA3E8;
 
-.logo-container {
-    text-align: center;
-    margin-bottom: 100px;
-    margin-top: 80px;
-}
-.form-body .logo {
-    font-size: 50px;
-}
+    /* Neutral Grays */
+    --gray-50: #F8FAFB;
+    --gray-100: #EDF1F5;
+    --gray-200: #E1E8ED;
+    --gray-300: #CBD5E0;
+    --gray-400: #A0AEC0;
+    --gray-500: #718096;
+    --gray-600: #4A5568;
+    --gray-700: #2D3748;
+    --gray-800: #1A202C;
+    --gray-900: #0F1419;
 
-.form-body .logo-p {
-    font-size: 20px;
-}
+    /* Status Colors - Muted */
+    --success: #48BB78;
+    --success-light: #9AE6B4;
+    --warning: #ECC94B;
+    --warning-light: #F6E05E;
+    --danger: #E85D5D;
+    --danger-light: #FC8181;
+    --info: #4299E1;
 
-.container {
-    width: 100%;
-    max-width: 400px;
-    padding: 30px;
-    background-color: rgb(24, 24, 24);
-    color: rgb(224, 224, 224);
-    border-radius: 8px;
-    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Center the content inside the container */
-}
+    /* Disease-specific colors (muted, professional) */
+    --normal-color: #48BB78;
+    --cataract-color: #ED8936;
+    --glaucoma-color: #E85D5D;
+    --diabetic-retinopathy-color: #9F7AEA;
 
-/* Form Title */
-h1 {
-    color: rgb(240, 240, 240);
-    font-size: 24px;
-    margin-bottom: 20px;
-}
+    /* Spacing (8px base unit) */
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 32px;
+    --space-xl: 40px;
+    --space-2xl: 48px;
+    --space-3xl: 64px;
 
-/* Input Fields */
-.input-field {
-    width: 100%;
-    padding: 10px;
-    margin: 15px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    color: black;
-}
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-full: 9999px;
 
-.input-field:focus {
-    border-color: #4CAF50;
-    outline: none;
-}
-
-/* Buttons */
-.btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn-auth {
-    background-color: #4CAF50;
-    color: white;
-    font-size: 18px;
-}
-
-.btn-auth:hover {
-    background-color: #45a049;
-}
-
-/* Links */
-a {
-    color: #64ca68;
-    text-decoration: none;
-    text-decoration: underline;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* Error message */
-.error-msg {
-    color: red;
-    text-align: center;
-}
-
- .results h3 {
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.results h4 {
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.results .prediction-value {
-    color: #4CAF50; /* Green for primary prediction result */
-    font-weight: bold;
-    text-transform: capitalize;
-}
-
-.results .confidence-value {
-    color: #4CAF50; /* Green for confidence value */
-    font-weight: bold;
-}
-
-.results .probability-item .probability-label span:last-child {
-    color: #4CAF50; /* Green for probability percentages */
-    font-weight: bold;
-}
-
-@media (max-width: 1024px) {
-    .ai-section {
-        display: flex;
-        flex-direction: column; /* Stack elements vertically */
-        align-items: center; /* Center align for better aesthetics */
-    }
-
-    .upload-form,
-    .results-container {
-        width: 100%; /* Ensure full width for better visibility */
-        max-width: 600px; /* Optional: Limit width for a cleaner layout */
-        margin-bottom: 1.5rem; /* Add spacing between the elements */
-    }
-}
-
-  /* Dashboard styles */
-  .dashboard-body {
-    font-family: 'Montserrat', sans-serif;
-}
-.dashboard-header {
-    padding: 20px 30px;
-    display: flex;
-    margin-bottom: 2rem;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.dashboard-header h2 {
-    width: 100%;
-}
-
-.dashboard-header a {
-    text-align: center;
-    color: white;
-    text-decoration: none;
-    background-color: #f44336;
-    padding: 10px 20px;
-    border-radius: 4px;
-    max-width: 70px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-
-.dash-container {
-    gap: 50px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0rem 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-}
-
-.ai-section {
-    margin-top: 100px;
-    width: 100%;
-    display: flex;
-    gap: 2rem;
-    background-color: rgb(24, 24, 24);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.upload-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 1.5rem;
-}
-
-.file-upload-label {
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background-color: rgb(27, 27, 27);
-    border: 2px dashed #dee2e6;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.upload-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.upload-icon {
-    width: 48px;
-    height: 48px;
-    color: #4CAF50;
-}
-
-.upload-text {
-    font-size: 1.1rem;
-    color: white;
-}
-
-.preview-section {
-    display: none;
-    width: 100%;
-}
-
-.image-preview-container {
-    max-width: 244px;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.image-preview {
-    width: 100%;
-    object-fit: cover;
-}
-
-.results-container {
-    width: 100%;
-}
-
-.probability-item {
-    margin-bottom: 1rem;
-}
-
-.probability-label {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-}
-
-.probability-bar {
-    height: 20px;
-    background-color: white;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.probability-fill {
-    height: 100%;
-    background-color: #4CAF50;
-    transition: width 0.6s ease;
-}
-
-#analyze-button {
-    background-color: #4CAF50;
-    color: white;
-    width: 100%;
-    margin-top: 1rem;
-    padding: 0.75rem;
-    font-size: 1.1rem;
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 /* ============================================
-   PROFESSIONAL MEDICAL THEME - PATIENT MANAGEMENT
+   BASE STYLES
    ============================================ */
 
-/* Header Updates */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--gray-100);
+    color: var(--gray-800);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
 .dashboard-header {
-    background-color: #1e1e1e;
-    padding: 1.5rem 3rem;
+    background-color: white;
+    padding: var(--space-lg) var(--space-2xl);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    border-bottom: 3px solid #2980b9;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: var(--space-lg);
 }
 
 .header-content h1 {
     margin: 0;
-    color: #3498db;
-    font-size: 1.8rem;
+    color: var(--primary-blue);
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 .welcome-text {
-    color: #bdc3c7;
-    margin: 0.25rem 0 0 0;
-    font-size: 0.95rem;
+    color: var(--gray-600);
+    margin: 4px 0 0 0;
+    font-size: 0.925rem;
+    font-weight: 400;
 }
 
 .header-actions {
     display: flex;
-    gap: 1rem;
+    gap: var(--space-sm);
     align-items: center;
 }
 
-/* Button Styles */
-.btn-primary {
-    background-color: #27ae60;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn {
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s ease;
-    display: inline-block;
+    font-size: 0.925rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: white;
 }
 
 .btn-primary:hover {
-    background-color: #229954;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+    background-color: var(--primary-blue-dark);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
 }
 
 .btn-secondary {
-    background-color: #34495e;
+    background-color: var(--gray-600);
     color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    display: inline-block;
 }
 
 .btn-secondary:hover {
-    background-color: #2c3e50;
+    background-color: var(--gray-700);
 }
 
 .btn-logout {
-    background-color: #e74c3c;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    background-color: white;
+    color: var(--danger);
+    border: 1px solid var(--gray-300);
 }
 
 .btn-logout:hover {
-    background-color: #c0392b;
+    background-color: var(--gray-50);
+    border-color: var(--danger);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c53030;
 }
 
 .btn-large {
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
+    padding: 14px 28px;
+    font-size: 1rem;
 }
 
 .btn-small {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    padding: 8px 16px;
+    font-size: 0.875rem;
 }
 
-/* Alerts */
+.btn-auth {
+    background-color: var(--primary-blue);
+    color: white;
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+}
+
+.btn-auth:hover {
+    background-color: var(--primary-blue-dark);
+}
+
+/* ============================================
+   ALERTS
+   ============================================ */
+
 .alerts-container {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-lg);
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 var(--space-lg);
 }
 
 .alert {
-    padding: 1rem 1.5rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-sm);
     font-weight: 500;
+    font-size: 0.925rem;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
 }
 
 .alert-success {
-    background-color: rgba(39, 174, 96, 0.2);
-    border-left: 4px solid #27ae60;
-    color: #2ecc71;
+    background-color: #E6F7ED;
+    border-left: 4px solid var(--success);
+    color: #22543D;
 }
 
 .alert-error {
-    background-color: rgba(231, 76, 60, 0.2);
-    border-left: 4px solid #e74c3c;
-    color: #e74c3c;
+    background-color: #FEF2F2;
+    border-left: 4px solid var(--danger);
+    color: #991B1B;
 }
 
-/* Dashboard Container */
+/* ============================================
+   DASHBOARD CONTAINER
+   ============================================ */
+
+.dashboard-body {
+    padding: 0;
+}
+
 .dash-container {
     max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 2rem;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
 }
 
-/* Patients Section */
+/* ============================================
+   PATIENTS SECTION
+   ============================================ */
+
 .patients-section {
-    margin-top: 2rem;
+    margin-top: var(--space-md);
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #34495e;
+    margin-bottom: var(--space-lg);
 }
 
 .section-header h2 {
-    color: #ecf0f1;
+    color: var(--gray-900);
     margin: 0;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .patient-count {
-    background-color: #2980b9;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
+    background-color: var(--gray-200);
+    color: var(--gray-700);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
     font-weight: 600;
 }
 
-/* Patient Cards Grid */
+/* ============================================
+   PATIENT CARDS
+   ============================================ */
+
 .patients-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: var(--space-md);
 }
 
 .patient-card {
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    padding: 1.5rem;
+    background-color: white;
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid #2c3e50;
+    transition: all 0.25s ease;
+    border: 1px solid var(--gray-200);
 }
 
 .patient-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
-    border-color: #3498db;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-blue-light);
 }
 
 .patient-card-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
 }
 
 .patient-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.25rem;
+    font-weight: 700;
+    flex-shrink: 0;
 }
 
 .patient-info h3 {
     margin: 0;
-    color: #ecf0f1;
-    font-size: 1.3rem;
+    color: var(--gray-900);
+    font-size: 1.125rem;
+    font-weight: 600;
 }
 
 .patient-date {
-    margin: 0.25rem 0 0 0;
-    color: #95a5a6;
-    font-size: 0.9rem;
+    margin: 4px 0 0 0;
+    color: var(--gray-500);
+    font-size: 0.875rem;
 }
 
 .patient-card-body {
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-sm);
 }
 
 .eye-status-row {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 10px;
 }
 
 .eye-status {
@@ -518,96 +359,165 @@ a:hover {
 }
 
 .eye-label {
-    color: #bdc3c7;
-    font-size: 0.95rem;
+    color: var(--gray-600);
+    font-size: 0.925rem;
+    font-weight: 500;
 }
 
 .status-badge {
-    padding: 0.35rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.85rem;
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
     font-weight: 600;
 }
 
 .status-analyzed {
-    background-color: rgba(39, 174, 96, 0.2);
-    color: #2ecc71;
+    background-color: #E6F7ED;
+    color: #22543D;
 }
 
 .status-pending {
-    background-color: rgba(241, 196, 15, 0.2);
-    color: #f1c40f;
+    background-color: #FEF5E7;
+    color: #975A16;
 }
 
 .status-missing {
-    background-color: rgba(149, 165, 166, 0.2);
-    color: #95a5a6;
+    background-color: var(--gray-100);
+    color: var(--gray-600);
 }
 
 .patient-card-footer {
-    padding-top: 1rem;
-    border-top: 1px solid #34495e;
-    text-align: right;
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--gray-200);
+    margin-top: var(--space-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.patient-actions {
+    display: flex;
+    gap: var(--space-xs);
 }
 
 .view-details {
-    color: #3498db;
+    color: var(--primary-blue);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.875rem;
 }
 
-/* Empty State */
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
 .empty-state {
     text-align: center;
-    padding: 4rem 2rem;
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    border: 2px dashed #34495e;
+    padding: var(--space-3xl) var(--space-lg);
+    background-color: white;
+    border-radius: var(--radius-lg);
+    border: 2px dashed var(--gray-300);
 }
 
 .empty-icon {
     font-size: 4rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-md);
+    opacity: 0.5;
 }
 
 .empty-state h3 {
-    color: #ecf0f1;
-    margin-bottom: 0.5rem;
+    color: var(--gray-800);
+    margin-bottom: var(--space-xs);
+    font-size: 1.25rem;
 }
 
 .empty-state p {
-    color: #95a5a6;
-    margin-bottom: 2rem;
+    color: var(--gray-500);
+    margin-bottom: var(--space-lg);
+    font-size: 0.925rem;
 }
 
-/* Create Patient Form */
+/* ============================================
+   FORM STYLES (Login/Register/Create Patient)
+   ============================================ */
+
+.form-body {
+    background-color: var(--gray-100);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+}
+
+.form-body .logo {
+    font-size: 3rem;
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+.form-body .logo-p {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    margin-top: var(--space-xs);
+}
+
+.container {
+    width: 100%;
+    max-width: 440px;
+    padding: var(--space-2xl);
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.container h1 {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    color: var(--gray-900);
+    font-size: 1.75rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
 .form-container {
-    max-width: 600px;
-    margin: 3rem auto;
-    background-color: #1e1e1e;
-    padding: 2.5rem;
-    border-radius: 12px;
-    border: 2px solid #2c3e50;
+    max-width: 640px;
+    margin: var(--space-2xl) auto;
+    background-color: white;
+    padding: var(--space-2xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .form-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-lg);
 }
 
 .form-header h2 {
-    color: #ecf0f1;
-    margin-bottom: 0.5rem;
+    color: var(--gray-900);
+    margin-bottom: var(--space-xs);
+    font-size: 1.5rem;
 }
 
 .form-header p {
-    color: #95a5a6;
+    color: var(--gray-600);
+    font-size: 0.925rem;
 }
 
 .patient-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: var(--space-md);
 }
 
 .form-group {
@@ -616,109 +526,192 @@ a:hover {
 }
 
 .form-group label {
-    color: #bdc3c7;
-    margin-bottom: 0.5rem;
+    color: var(--gray-700);
+    margin-bottom: var(--space-xs);
     font-weight: 600;
+    font-size: 0.925rem;
 }
 
 .required {
-    color: #e74c3c;
+    color: var(--danger);
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-size: 0.925rem;
+    color: var(--gray-800);
+    transition: all 0.2s ease;
+}
+
+.input-field:focus {
+    border-color: var(--primary-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.input-field::placeholder {
+    color: var(--gray-400);
 }
 
 .form-actions {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
 }
 
 .form-actions .btn {
     flex: 1;
 }
 
-/* Patient Detail Page */
+/* Links */
+a {
+    color: var(--primary-blue);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Error message */
+.error-msg {
+    background-color: #FEF2F2;
+    color: #991B1B;
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    margin-bottom: var(--space-md);
+    font-size: 0.875rem;
+    border: 1px solid #FCA5A5;
+}
+
+/* ============================================
+   PATIENT DETAIL PAGE
+   ============================================ */
+
 .patient-detail-container {
     max-width: 1400px;
-    margin: 2rem auto;
-    padding: 0 2rem;
+    margin: 0 auto;
+    padding: 0 var(--space-lg) var(--space-2xl) var(--space-lg);
 }
 
 .patient-info-card {
-    background-color: #1e1e1e;
-    padding: 2rem;
-    border-radius: 12px;
+    background-color: white;
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    border: 2px solid #2c3e50;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
 }
 
 .patient-avatar-large {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 88px;
+    height: 88px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: 2rem;
+    font-weight: 700;
+    flex-shrink: 0;
 }
 
 .patient-info-card h2 {
-    color: #ecf0f1;
-    margin: 0 0 0.5rem 0;
+    color: var(--gray-900);
+    margin: 0 0 var(--space-xs) 0;
+    font-size: 1.75rem;
 }
 
 .patient-meta {
-    color: #95a5a6;
-    margin: 0.25rem 0;
-    font-size: 0.95rem;
+    color: var(--gray-500);
+    margin: 4px 0;
+    font-size: 0.875rem;
 }
 
-/* Eyes Grid */
+/* ============================================
+   EYE CARDS (Left/Right Eye)
+   ============================================ */
+
 .eyes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 2rem;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
 }
 
 .eye-card {
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    padding: 2rem;
-    border: 2px solid #2c3e50;
+    background-color: white;
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-200);
 }
 
 .eye-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #34495e;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--gray-200);
 }
 
-.eye-card-header h3 {
-    color: #ecf0f1;
+.eye-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.eye-header-left h3 {
+    color: var(--gray-900);
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.header-timestamp {
+    color: var(--gray-500);
+    font-size: 0.8125rem;
+    font-weight: 400;
+}
+
+.eye-header-actions {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.header-upload-form {
+    margin: 0;
 }
 
 .eye-card-body {
     display: flex;
+    flex-direction: row;
+    gap: var(--space-lg);
+    align-items: flex-start;
+}
+
+.eye-card-body.no-image {
     flex-direction: column;
-    gap: 1.5rem;
 }
 
 .eye-image-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    border-radius: 12px;
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
     overflow: hidden;
-    border: 3px solid #2c3e50;
+    border: 2px solid var(--gray-200);
+    background-color: var(--gray-50);
 }
 
 .eye-image {
@@ -729,126 +722,383 @@ a:hover {
 
 .upload-placeholder {
     text-align: center;
-    padding: 3rem 2rem;
-    background-color: #2c3e50;
-    border-radius: 12px;
-    border: 2px dashed #34495e;
+    padding: var(--space-3xl) var(--space-lg);
+    background-color: var(--gray-50);
+    border-radius: var(--radius-md);
+    border: 2px dashed var(--gray-300);
 }
 
 .upload-icon-large {
-    font-size: 4rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin-bottom: var(--space-sm);
+    opacity: 0.4;
 }
 
 .upload-placeholder p {
-    color: #95a5a6;
-    margin-bottom: 1.5rem;
+    color: var(--gray-500);
+    margin-bottom: var(--space-md);
+    font-size: 0.925rem;
 }
 
-/* Analysis Results */
+/* ============================================
+   ANALYSIS RESULTS
+   ============================================ */
+
 .analysis-results {
-    background-color: #2c3e50;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 2px solid #34495e;
+    background-color: var(--gray-50);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+    flex: 1;
+    min-width: 0;
+}
+
+.eye-card-content-wrapper {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
 }
 
 .analysis-results h4 {
-    color: #ecf0f1;
+    color: var(--gray-900);
     margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
+    margin-bottom: var(--space-md);
+    font-size: 1.0625rem;
+    font-weight: 600;
+}
+
+.diagnosis-split {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.diagnosis-left {
+    flex: 1;
+    min-width: 0;
+}
+
+.diagnosis-right {
+    flex: 1;
+    min-width: 0;
+}
+
+.diagnosis-left h4,
+.diagnosis-right h4 {
+    color: var(--gray-900);
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+    font-size: 1.0625rem;
+    font-weight: 600;
 }
 
 .diagnosis-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+    padding: var(--space-sm) var(--space-md);
+    background-color: white;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-sm);
 }
 
 .diagnosis-label {
-    color: #bdc3c7;
+    color: var(--gray-600);
     font-weight: 600;
+    font-size: 0.925rem;
 }
 
 .diagnosis-value {
-    font-size: 1.4rem;
-    font-weight: bold;
+    font-size: 1.125rem;
+    font-weight: 700;
     text-transform: capitalize;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
 }
 
 .diagnosis-normal {
-    color: #2ecc71;
-    background-color: rgba(46, 204, 113, 0.2);
+    color: #22543D;
+    background-color: #E6F7ED;
 }
 
 .diagnosis-cataract {
-    color: #e67e22;
-    background-color: rgba(230, 126, 34, 0.2);
+    color: #9C4221;
+    background-color: #FEF5E7;
 }
 
 .diagnosis-glaucoma {
-    color: #e74c3c;
-    background-color: rgba(231, 76, 60, 0.2);
+    color: #991B1B;
+    background-color: #FEF2F2;
 }
 
 .diagnosis-diabetic_retinopathy {
-    color: #9b59b6;
-    background-color: rgba(155, 89, 182, 0.2);
+    color: #5B21B6;
+    background-color: #F3F0FF;
 }
 
 .diagnosis-confidence {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 1rem;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+    padding: 10px var(--space-md);
+    background-color: white;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-sm);
 }
 
 .confidence-value {
-    color: #3498db;
-    font-weight: bold;
-    font-size: 1.2rem;
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 1.0625rem;
 }
 
 .diagnosis-timestamp {
-    color: #7f8c8d;
-    font-size: 0.85rem;
+    color: var(--gray-500);
+    font-size: 0.8125rem;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: var(--space-sm);
 }
 
-.probabilities-section {
-    margin-top: 1.5rem;
+.probability-item {
+    margin-bottom: var(--space-sm);
 }
 
-.probabilities-section h5 {
-    color: #bdc3c7;
-    margin-bottom: 1rem;
+.probability-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    color: var(--gray-700);
+    font-size: 0.875rem;
 }
 
-.analyze-form, .re-upload-form {
-    margin-top: 1rem;
+.probability-label span:first-child {
+    font-weight: 500;
+    text-transform: capitalize;
 }
 
-/* Responsive Design */
+.probability-label span:last-child {
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.probability-bar {
+    height: 8px;
+    background-color: var(--gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.probability-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-blue-light) 0%, var(--primary-blue) 100%);
+    transition: width 0.5s ease;
+    border-radius: var(--radius-full);
+}
+
+.analyze-form,
+.re-upload-form {
+    margin-top: 0;
+}
+
+.analyze-form {
+    width: 100%;
+}
+
+.analyze-form .btn-large {
+    width: 100%;
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 420px;
+}
+
+.toast {
+    background-color: white;
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-left: 4px solid;
+    animation: slideIn 0.3s ease-out;
+    min-width: 320px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+.toast.hiding {
+    animation: slideOut 0.3s ease-out forwards;
+}
+
+.toast-success {
+    border-left-color: var(--success);
+}
+
+.toast-error {
+    border-left-color: var(--danger);
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-message {
+    color: var(--gray-900);
+    font-weight: 500;
+    font-size: 0.925rem;
+    margin: 0;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: var(--gray-400);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.toast-close:hover {
+    color: var(--gray-600);
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.btn.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.btn.loading::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .eye-card-body {
+        flex-direction: column;
+    }
+
+    .eye-image-container {
+        width: 100%;
+        max-width: 360px;
+        min-width: auto;
+        margin: 0 auto;
+    }
+
+    .diagnosis-split {
+        flex-direction: column;
+    }
+}
+
 @media (max-width: 768px) {
+    .toast-container {
+        right: 12px;
+        left: 12px;
+        top: 70px;
+        max-width: none;
+    }
+
+    .toast {
+        min-width: auto;
+    }
+
+    .eye-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+
+    .eye-header-left {
+        width: 100%;
+    }
+
+    .eye-header-actions {
+        width: 100%;
+    }
+
+    .header-upload-form .btn {
+        width: 100%;
+    }
+
     .dashboard-header {
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--space-md);
         text-align: center;
+        padding: var(--space-md);
     }
 
     .header-actions {
         flex-direction: column;
+        width: 100%;
+    }
+
+    .header-actions .btn {
         width: 100%;
     }
 
@@ -862,5 +1112,36 @@ a:hover {
 
     .form-actions {
         flex-direction: column;
+    }
+
+    .patient-info-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dash-container {
+        padding: 0 var(--space-sm);
+    }
+
+    .patient-detail-container {
+        padding: 0 var(--space-sm) var(--space-lg) var(--space-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .patients-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .eye-card {
+        padding: var(--space-md);
+    }
+
+    .patient-card {
+        padding: var(--space-md);
+    }
+
+    .eye-image-container {
+        max-width: 100%;
     }
 }

@@ -13,86 +13,153 @@
 </header>
 
 <div class="dashboard-body">
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <div class="dash-container">
+        <!-- Hidden flash messages data for JavaScript -->
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="alerts-container">
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+        {% if messages %}
+        <div id="flashMessages" style="display: none;">
+            {% for category, message in messages %}
+            <div data-category="{{ category }}" data-message="{{ message }}"></div>
+            {% endfor %}
+        </div>
+        {% endif %}
         {% endwith %}
 
         <div class="patients-section">
             <div class="section-header">
                 <h2>Your Patients</h2>
-                <span class="patient-count">{{ patients|length }} patient{% if patients|length != 1 %}s{% endif %}</span>
+                <span class="patient-count">{{ patients|length }} patient{% if patients|length != 1 %}s{% endif
+                    %}</span>
             </div>
 
             {% if patients %}
-                <div class="patients-grid">
-                    {% for patient in patients %}
-                        <div class="patient-card" onclick="window.location.href='{{ url_for('patient_detail', patient_id=patient.id) }}'">
-                            <div class="patient-card-header">
-                                <div class="patient-avatar">
-                                    {{ patient.first_name[0] }}{{ patient.last_name[0] }}
-                                </div>
-                                <div class="patient-info">
-                                    <h3>{{ patient.full_name }}</h3>
-                                    <p class="patient-date">Created: {{ patient.created_at.strftime('%b %d, %Y') }}</p>
-                                </div>
+            <div class="patients-grid">
+                {% for patient in patients %}
+                <div class="patient-card"
+                    onclick="window.location.href='{{ url_for('patient_detail', patient_id=patient.id) }}'">
+                    <div class="patient-card-header">
+                        <div class="patient-avatar">
+                            {{ patient.first_name[0] }}{{ patient.last_name[0] }}
+                        </div>
+                        <div class="patient-info">
+                            <h3>{{ patient.full_name }}</h3>
+                            <p class="patient-date">Created: {{ patient.created_at.strftime('%b %d, %Y') }}</p>
+                        </div>
+                    </div>
+
+                    <div class="patient-card-body">
+                        <div class="eye-status-row">
+                            <div class="eye-status">
+                                <span class="eye-label">👁️ Left Eye:</span>
+                                {% set left_eye = patient.get_analysis('left') %}
+                                {% if left_eye %}
+                                {% if left_eye.is_analyzed %}
+                                <span class="status-badge status-analyzed">✓ Analyzed</span>
+                                {% else %}
+                                <span class="status-badge status-pending">⏳ Pending</span>
+                                {% endif %}
+                                {% else %}
+                                <span class="status-badge status-missing">○ Not uploaded</span>
+                                {% endif %}
                             </div>
 
-                            <div class="patient-card-body">
-                                <div class="eye-status-row">
-                                    <div class="eye-status">
-                                        <span class="eye-label">👁️ Left Eye:</span>
-                                        {% set left_eye = patient.get_analysis('left') %}
-                                        {% if left_eye %}
-                                            {% if left_eye.is_analyzed %}
-                                                <span class="status-badge status-analyzed">✓ Analyzed</span>
-                                            {% else %}
-                                                <span class="status-badge status-pending">⏳ Pending</span>
-                                            {% endif %}
-                                        {% else %}
-                                            <span class="status-badge status-missing">○ Not uploaded</span>
-                                        {% endif %}
-                                    </div>
-
-                                    <div class="eye-status">
-                                        <span class="eye-label">👁️ Right Eye:</span>
-                                        {% set right_eye = patient.get_analysis('right') %}
-                                        {% if right_eye %}
-                                            {% if right_eye.is_analyzed %}
-                                                <span class="status-badge status-analyzed">✓ Analyzed</span>
-                                            {% else %}
-                                                <span class="status-badge status-pending">⏳ Pending</span>
-                                            {% endif %}
-                                        {% else %}
-                                            <span class="status-badge status-missing">○ Not uploaded</span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="patient-card-footer">
-                                <span class="view-details">View Details →</span>
+                            <div class="eye-status">
+                                <span class="eye-label">👁️ Right Eye:</span>
+                                {% set right_eye = patient.get_analysis('right') %}
+                                {% if right_eye %}
+                                {% if right_eye.is_analyzed %}
+                                <span class="status-badge status-analyzed">✓ Analyzed</span>
+                                {% else %}
+                                <span class="status-badge status-pending">⏳ Pending</span>
+                                {% endif %}
+                                {% else %}
+                                <span class="status-badge status-missing">○ Not uploaded</span>
+                                {% endif %}
                             </div>
                         </div>
-                    {% endfor %}
+                    </div>
+
+                    <div class="patient-card-footer">
+                        <div class="patient-actions">
+                            <a href="{{ url_for('edit_patient', patient_id=patient.id) }}"
+                                class="btn btn-secondary btn-small" onclick="event.stopPropagation()">✏️ Edit</a>
+                            <form method="POST" action="{{ url_for('delete_patient', patient_id=patient.id) }}"
+                                style="display: inline;" onclick="event.stopPropagation()">
+                                <button type="submit" class="btn btn-danger btn-small"
+                                    onclick="return confirm('Are you sure you want to delete {{ patient.full_name }}? This will delete all associated eye images and analyses.')">🗑️
+                                    Delete</button>
+                            </form>
+                        </div>
+                        <span class="view-details">View Details →</span>
+                    </div>
                 </div>
+                {% endfor %}
+            </div>
             {% else %}
-                <div class="empty-state">
-                    <div class="empty-icon">👥</div>
-                    <h3>No patients yet</h3>
-                    <p>Start by creating your first patient record</p>
-                    <a href="{{ url_for('create_patient') }}" class="btn btn-primary btn-large">Create First Patient</a>
-                </div>
+            <div class="empty-state">
+                <div class="empty-icon">👥</div>
+                <h3>No patients yet</h3>
+                <p>Start by creating your first patient record</p>
+                <a href="{{ url_for('create_patient') }}" class="btn btn-primary btn-large">Create First Patient</a>
+            </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<script>
+    // ========================================
+    // TOAST NOTIFICATION SYSTEM
+    // ========================================
+
+    function showToast(message, type = 'success') {
+        const toastContainer = document.getElementById('toastContainer');
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+
+        const icon = type === 'success' ? '✓' : '✕';
+
+        toast.innerHTML = `
+        <div class="toast-icon">${icon}</div>
+        <div class="toast-content">
+            <p class="toast-message">${message}</p>
+        </div>
+        <button class="toast-close" onclick="closeToast(this)">×</button>
+    `;
+
+        toastContainer.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            closeToast(toast.querySelector('.toast-close'));
+        }, 5000);
+    }
+
+    function closeToast(button) {
+        const toast = button.closest('.toast');
+        toast.classList.add('hiding');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }
+
+    // Show flash messages as toasts on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        const flashMessages = document.getElementById('flashMessages');
+        if (flashMessages) {
+            const messages = flashMessages.querySelectorAll('[data-category]');
+            messages.forEach((msg, index) => {
+                setTimeout(() => {
+                    const category = msg.dataset.category;
+                    const message = msg.dataset.message;
+                    showToast(message, category);
+                }, index * 100); // Stagger multiple toasts
+            });
+        }
+    });
+</script>
 {% endblock %}

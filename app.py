@@ -18,6 +18,12 @@ app = Flask(__name__)
 # Secret key configuration
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 
+# Session configuration for iframe support (Hugging Face Spaces)
+# Only enable secure cookies in production (when FLASK_ENV is not set to development)
+if os.environ.get('FLASK_ENV') != 'development':
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+    app.config['SESSION_COOKIE_SECURE'] = True
+
 # Configure upload folder
 app.config['UPLOAD_FOLDER'] = 'media'
 
@@ -97,6 +103,12 @@ class EyeAnalysis(db.Model):
     @property
     def is_analyzed(self):
         return self.prediction is not None
+
+# Initialize database tables on startup (needed for production)
+# MUST be after all model classes are defined
+with app.app_context():
+    db.create_all()
+    print("Database tables initialized")
 
 def preprocess_image(image_path):
     """
@@ -192,6 +204,62 @@ def create_patient():
         return redirect(url_for("patient_detail", patient_id=new_patient.id))
 
     return render_template("create_patient.html", username=session["username"])
+
+@app.route("/patients/<int:patient_id>/edit", methods=["GET", "POST"])
+def edit_patient(patient_id):
+    if "username" not in session:
+        return redirect(url_for("login"))
+
+    doctor = User.query.filter_by(username=session["username"]).first()
+    patient = Patient.query.filter_by(id=patient_id, doctor_id=doctor.id).first()
+
+    if not patient:
+        flash("Patient not found or access denied", "error")
+        return redirect(url_for("dashboard"))
+
+    if request.method == "POST":
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
+
+        if not first_name or not last_name:
+            flash("First name and last name are required", "error")
+            return render_template("edit_patient.html", patient=patient, username=session["username"])
+
+        patient.first_name = first_name.strip()
+        patient.last_name = last_name.strip()
+        db.session.commit()
+
+        flash(f"Patient {patient.full_name} updated successfully!", "success")
+        return redirect(url_for("dashboard"))
+
+    return render_template("edit_patient.html", patient=patient, username=session["username"])
+
+@app.route("/patients/<int:patient_id>/delete", methods=["POST"])
+def delete_patient(patient_id):
+    if "username" not in session:
+        return redirect(url_for("login"))
+
+    doctor = User.query.filter_by(username=session["username"]).first()
+    patient = Patient.query.filter_by(id=patient_id, doctor_id=doctor.id).first()
+
+    if not patient:
+        flash("Patient not found or access denied", "error")
+        return redirect(url_for("dashboard"))
+
+    patient_name = patient.full_name
+
+    # Delete associated image files
+    patient_media_dir = os.path.join(app.config['UPLOAD_FOLDER'], f"patient_{patient_id}")
+    if os.path.exists(patient_media_dir):
+        import shutil
+        shutil.rmtree(patient_media_dir)
+
+    # Delete patient (cascade will delete eye_analyses)
+    db.session.delete(patient)
+    db.session.commit()
+
+    flash(f"Patient {patient_name} deleted successfully", "success")
+    return redirect(url_for("dashboard"))
 
 @app.route("/patients/<int:patient_id>")
 def patient_detail(patient_id):
